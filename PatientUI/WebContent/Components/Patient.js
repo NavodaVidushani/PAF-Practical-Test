@@ -58,7 +58,7 @@ $(document)
 					patient["PatientPhone"] = formObj.find("#PatientPhone").val().trim()
 					patient["PatientBloodGroup"] = formObj.find("#PatientBloodGroup").val().trim()
 					patient["PatientMaritalStatus"] = formObj.find("#PatientMaritalStatus").val().trim()
-					patient["Patient_Add_Line1"] = formObj.find("#Patient_Add_Line1").val().trim()
+					patient["Patient_Add_Line1"] = "24/A"
 					patient["Patient_Add_Line2"] = formObj.find("#Patient_Add_Line2").val().trim()
 					patient["Patient_Add_Line3"] = formObj.find("#Patient_Add_Line3").val().trim()
 					patient["Patient_Add_City"] = formObj.find("#Patient_Add_City").val().trim()
@@ -71,17 +71,17 @@ $(document)
 					
 						
 						
-					var type = ($("#hidItemIDSave").val() == "") ? "POST"
-							: "PUT";
+					var type = ($("#hidItemIDSave").val() == "") ? "POST": "PUT";
 					serviceUrl = "http://localhost:8080/PatientService/PatientService/Patients"
 					if (type == "PUT") {
-						serviceUrl = "http://localhost:8080/PatientService/PatientService/Patients/"
-								+ $("#hidItemIDSave").val().trim()
+						serviceUrl = "http://localhost:8080/PatientService/PatientService/Patients"
+						patient["PatientID"]=$("#hidItemIDSave").val()	
+								
 					}
 					$.ajax({
 						url : serviceUrl,
 						type : type,
-						data : JSON.stringify(schedule),
+						data : JSON.stringify(patient),
 						contentType : "application/json",
 						beforeSend : function(xhr) {
 							xhr.setRequestHeader("Authorization", "Basic "
@@ -124,21 +124,20 @@ $(document)
 									.val());
 					
 					$("#PatientNIC").val(
-							$(this).closest("tr").find('td:eq(0)').text());
-					$("#PatientFName").val(
 							$(this).closest("tr").find('td:eq(1)').text());
-					$("#PatientLName").val(
+					$("#PatientFName").val(
 							$(this).closest("tr").find('td:eq(2)').text());
-					$("#PatientGender").val(
+					$("#PatientLName").val(
 							$(this).closest("tr").find('td:eq(3)').text());
+					$("#PatientGender").val(
+							$(this).closest("tr").find('td:eq(4)').text());
 					$("#PatientPhone")
-							.val($(this).closest("tr").find('td:eq(4)').text());
+							.val($(this).closest("tr").find('td:eq(5)').text());
 					$("#PatientBloodGroup").val(
-							$(this).closest("tr").find('td:eq(5)').text());
-					$("#PatientMaritalStatus").val(
 							$(this).closest("tr").find('td:eq(6)').text());
-					$("#Patient_Add_Line1").val(
+					$("#PatientMaritalStatus").val(
 							$(this).closest("tr").find('td:eq(7)').text());
+					
 					$("#Patient_Add_Line2").val(
 							$(this).closest("tr").find('td:eq(8)').text());
 					$("#Patient_Add_Line3")
@@ -163,30 +162,33 @@ $(document)
 				});
 
 $(document)
-		.on(
-				"click",
-				".btnRemove",
-				function(event) {
-					var r = confirm("Do you want to delete this record");
-					if (r == true) {
-						serviceUrl = "http://localhost:8080/PatientService/PatientService/Patients/"
-								+ $(this).data("PatientID")
-						$.ajax({
-							url : serviceUrl,
-							type : "DELETE",
-							beforeSend : function(xhr) {
-								xhr.setRequestHeader("Authorization", "Basic "
-										+ btoa("admin" + ":" + "admin"));
-							},
-							complete : function(response, status) {
-								onItemDeleteComplete(response.responseText,
-										status);
-								console.log(status)
-							}
-
-						});
+.on(
+		"click",
+		".btnRemove",
+		function(event) {
+			var r = confirm("Do you want to delete this record");
+			if (r == true) {
+				serviceUrl = "http://localhost:8080/PatientService/PatientService/Patients/"
+					//	+ $(this).data("patientid")
+					console.log('{"PatientID":"'+$(this).data("patientid")+'"}')
+				$.ajax({
+					url : serviceUrl,
+					type : "DELETE",
+					data : '{"PatientID":"'+$(this).data("patientid")+'"}',
+                    contentType : "application/json",
+					beforeSend : function(xhr) {
+						xhr.setRequestHeader("Authorization", "Basic "
+								+ btoa("admin" + ":" + "admin"));
+					},
+					complete : function(response, status) {
+						onItemDeleteComplete(response.responseText,
+								status);
+						console.log(status)
 					}
+
 				});
+			}
+		});
 
 
 
@@ -353,30 +355,32 @@ function readPatient(data) {
 			.each(
 					data,
 					function(index, obj) {
-						content += "<tr><td><input id='hidItemIDUpdate' name='hidItemIDUpdate' type='hidden' value='" + obj["PatientID"] + "'>" 
-								+ obj["PatientNIC"] + "</td>";
+						content += "<tr><td><input id='hidItemIDUpdate' name='hidItemIDUpdate' type='hidden' value='" + obj["id"] + "'>" 
+								+ obj["id"] + "</td>"
+								
 						content += "<td>"
-								+ obj["PatientFName"] + "</td><td>"
-								+ obj["PatientLName"] + "</td><td>"
-								+ obj["PatientGender"] + "</td><td>" 
-								+ obj["PatientPhone"] + "</td><td>" 
-								+ obj["PatientBloodGroup"] + "</td><td>"
-								+ obj["PatientMaritalStatus"] + "</td><td>"
-								+ obj["Patient_Add_Line1"] + "</td><td>"
-								+ obj["Patient_Add_Line2"] + "</td><td>"
-								+ obj["Patient_Add_Line3"] + "</td><td>" 
-								+ obj["Patient_Add_City"] + "</td><td>" 
-								+ obj["PatientDOB_year"] + "</td><td>"
-								+ obj["PatientDOB_month"] + "</td><td>"
-								+ obj["PatientDOB_day"] + "</td><td>"
-								+ obj["PatientEmail"] + "</td><td>"
-								+ obj["PatientUsername"] + "</td><td>" 
-								+ obj["PatientPassword"] + "</td>" 
+								+ obj["patientNIC"] + "</td><td>"
+								+ obj["patientFName"] + "</td><td>"
+								+ obj["patientLName"] + "</td><td>"
+								+ obj["patientGender"] + "</td><td>" 
+								+ obj["patientPhone"] + "</td><td>" 
+								+ obj["patientBloodGroup"] + "</td><td>"
+								+ obj["patientMaritalStatus"] + "</td><td>"
+					
+								+ obj["patient_Add_Line2"] + "</td><td>"
+								+ obj["patient_Add_Line3"] + "</td><td>" 
+								+ obj["patient_Add_City"] + "</td><td>" 
+								+ obj["patientDOB_year"] + "</td><td>"
+								+ obj["patientDOB_month"] + "</td><td>"
+								+ obj["patientDOB_day"] + "</td><td>"
+								+ obj["patientEmail"] + "</td><td>"
+								+ obj["patientUsername"] + "</td><td>" 
+								+ obj["patientPassword"] + "</td>" 
 								
 
 						content += "<td><input name='btnUpdate' type='button' value='Update' class='btnUpdate btn btn-secondary'></td>"
-								+ "<td><input name='btnRemove' type='button' value='Remove' class='btnRemove btn btn-danger' data-PatientID='"
-								+ obj["PatientID"] + "'>" + "</td></tr>";
+								+ "<td><input name='btnRemove' type='button' value='Remove' class='btnRemove btn btn-danger' data-patientid='"
+								+ obj["id"] + "'>" + "</td></tr>";
 					});
 
 	$("#patientTable tbody").append(content);
@@ -394,7 +398,7 @@ function refresh() {
 					+ btoa("admin" + ":" + "admin"));
 		},
 		success : function(data) {
-			viewSchedules(data)
+			readPatient(data)
 		}
 	});
 
