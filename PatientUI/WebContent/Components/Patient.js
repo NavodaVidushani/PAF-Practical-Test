@@ -163,6 +163,7 @@ $(document)
 					}
 				});
 
+
 // CLIENTMODEL=========================================================================
 function validateItemForm() {
 	// NIC
