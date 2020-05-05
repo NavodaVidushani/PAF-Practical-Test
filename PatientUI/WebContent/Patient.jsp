@@ -10,8 +10,6 @@
 <script src="Components/jquery-3.4.1.min.js"></script>
 <script src="Components/Patient.js"></script>
 
-
-
 </head>
 <body>
 	<h2 style="color: #0D3660;">

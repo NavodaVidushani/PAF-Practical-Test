@@ -109,7 +109,6 @@ $(document)
 							$(this).closest("tr").find('td:eq(6)').text());
 					$("#PatientMaritalStatus").val(
 							$(this).closest("tr").find('td:eq(7)').text());
-
 					$("#Patient_Add_Line2").val(
 							$(this).closest("tr").find('td:eq(8)').text());
 					$("#Patient_Add_Line3").val(
