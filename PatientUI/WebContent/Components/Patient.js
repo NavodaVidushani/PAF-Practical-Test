@@ -171,6 +171,12 @@ function validateItemForm() {
 		return "Insert NIC.";
 	}
 
+	// NIC must have 10 and 12 characters
+	var tmpNIC1 = $("#PatientNIC").val().trim();
+	if (tmpNIC1.length < 10 || tmpNIC1.length > 12) {
+		return "Invalid NIC.";
+	}
+
 	// First NAME
 	if ($("#PatientFName").val().trim() == "") {
 		return "Insert First Name.";
@@ -196,9 +202,12 @@ function validateItemForm() {
 	if (!$.isNumeric(tmpPhone)) {
 		return "Invalid Phone Number.";
 	}
-	
-	
-	
+
+	// Phone Number must have 10 numbers
+	var tmpPhone1 = $("#PatientPhone").val().trim();
+	if (tmpPhone1.length < 10 || tmpPhone1.length > 10) {
+		return "Invalid Phone Number.";
+	}
 
 	// PatientBloodGroup
 	if ($("#PatientBloodGroup").val().trim() == "") {
@@ -230,6 +239,12 @@ function validateItemForm() {
 		return "Insert DOB year.";
 	}
 
+	// Year range (1910 - 2021)
+	var tmpDYear = $("#PatientDOB_year").val().trim();
+	if (tmpDYear < 1910 || tmpDYear > 2021) {
+		return "Invalid Birth Year.";
+	}
+
 	// PatientDOB_month
 	if ($("#PatientDOB_month").val().trim() == "") {
 		return "Select DOB month.";
@@ -240,13 +255,11 @@ function validateItemForm() {
 		return "Insert DOB date.";
 	}
 
-	// Email
-	if ($("#PatientEmail").val().trim() == "") {
-		return "Insert Email.";
+	// Days range should be 1-31
+	var tmpDDay = $("#PatientDOB_day").val().trim();
+	if (tmpDDay < 0 || tmpDDay > 32) {
+		return "Invalid Date.";
 	}
-	
-	
-	
 
 	// Username
 	if ($("#PatientUsername").val().trim() == "") {
@@ -258,17 +271,33 @@ function validateItemForm() {
 		return "Insert Password.";
 	}
 
+	// Password should have more than 8 characters
+	var tmpPwd1 = $("#PatientPassword").val().trim();
+	if (tmpPwd1.length < 8) {
+		return "Invalid Password.";
+	}
+
+	// Email
+	if ($("#PatientEmail").val().trim() == "") {
+		return "Insert Email.";
+	}
+
+	// Password characters which contain at least one numeric digit, one
+	// uppercase and one lowercase letter (ex: Es123456)
+	var PatientPassword = $("#PatientPassword").val().trim();
+	if (!(/^[A-Za-z]\w{7,14}$/.test(formPatient.PatientPassword.value))) {
+		return "Invlid Password.";
+	}
+
+	// Correct email format (ex: John@gmail.com)
+	var PatientEmail = $("#PatientEmail").val().trim();
+	if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+			.test(formPatient.PatientEmail.value))) {
+		return "Invlid Email.";
+	}
+
 	return true;
 }
-
-
-
-
-
-
-
-
-
 
 function onItemSaveComplete(response, status) {
 	if (status == "success") {

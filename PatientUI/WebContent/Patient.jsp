@@ -9,6 +9,9 @@
 <link rel="stylesheet" href="Views/bootstrap.min.css">
 <script src="Components/jquery-3.4.1.min.js"></script>
 <script src="Components/Patient.js"></script>
+
+
+
 </head>
 <body>
 	<h2 style="color: #0D3660;">
@@ -20,8 +23,8 @@
 			<div class="col-md-4">
 
 				<h3 id="heading" style="color: #0D3660;">Create Patient</h3>
-				
-				
+
+
 				<form id="formPatient" name="formPatient">
 					<b>NIC</b> <input id="PatientNIC" name="PatientNIC" type="text"
 						class="form-control form-control-sm" placeholder="NIC"> <br>
@@ -45,10 +48,10 @@
 						class="form-control form-control-sm" id='PatientBloodGroup'
 						name="PatientBloodGroup">
 						<option selected value=''>Blood Group</option>
-						<option value='AP'>A+</option>
-						<option value='OP'>O+</option>
-						<option value='BP'>B+</option>
-						<option value='ABP'>AB+</option>
+						<option value='A+'>A+</option>
+						<option value='O+'>O+</option>
+						<option value='B+'>B+</option>
+						<option value='AB+'>AB+</option>
 						<option value='A-'>A-</option>
 						<option value='O-'>O-</option>
 						<option value='B-'>B-</option>
@@ -115,7 +118,7 @@
 					</center>
 
 				</form>
-				
+
 				<br>
 				<div id="alertSuccess" class="alert alert-success"></div>
 				<div id="alertError" class="alert alert-danger"></div>
